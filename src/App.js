@@ -1,25 +1,37 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import Navbar from './components/Navbar';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const [backendData, setBackendData] = useState({ coinData: [] });
+
+  useEffect(() => {
+    fetch("/api")
+      .then(response => response.json())
+      .then(data => {
+        setBackendData(data);
+      });
+  }, []);
+
+  return (  
+    <>
+           <Navbar />  
+      <div className="app-container">
+        {(typeof backendData.coinData ==='undefined') ? (
+          <p className="text-white">Loading...</p>
+        ) : (
+          backendData.coinData.map((coin, i) => (
+            <div key={i} className="coin-container">
+              <h1>{coin.name}</h1>
+              <img src={coin.image} alt={coin.name} />
+              <h3 style={{ color: 'white' }}>${coin.current_price}</h3>
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
+  
 }
 
 export default App;
