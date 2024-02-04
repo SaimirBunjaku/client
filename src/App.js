@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 
+
+
 function App() {
   const [backendData, setBackendData] = useState({ coinData: [] });
 
@@ -22,7 +24,7 @@ function App() {
         ) : (
           backendData.coinData.map((coin, i) => (
             <div key={i} className="coin-container">
-              <h1>{coin.name}</h1>
+              <h1 className="text-white">{coin.name}</h1>
               <img src={coin.image} alt={coin.name} />
               <h3 style={{ color: 'white' }}>${coin.current_price}</h3>
             </div>
